@@ -46,8 +46,7 @@ Los campos incluyen:
 - `tableroGUI`: una matriz de botones que representa la interfaz gráfica del tablero del juego.
 - `juego`: una instancia de la clase `Grid` que representa el tablero del juego.
 - `player2`: una instancia de la clase `Player` que representa al jugador 2 (si `jugadorcpu` es verdadero).
-- `ficha1` y `ficha2`: instancias de `ImageIcon` que representan las imágenes de las fichas del jugador 1 y del jugador
-  2.
+- `ficha1` y `ficha2`: instancias de `ImageIcon` que representan las imágenes de las fichas del jugador 1 y del jugador 2.
 - `barra`, `archivo`, `opciones`, `salir`, `p1h`, `p2h`, `p2c`, `p2c2`, `p2c3`, `p2c4`, `nombre` y `title`: componentes
   de la interfaz gráfica utilizados para mostrar el menú y la información del juego.
 

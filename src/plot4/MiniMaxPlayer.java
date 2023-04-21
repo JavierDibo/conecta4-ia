@@ -1,7 +1,9 @@
 package plot4;
 
 public class MiniMaxPlayer extends Player {
-    static final int PROFUNDIDAD_MAX = 40;
+    static final int FILAS = 6;
+    static final int COLUMNAS = 7;
+    static final int PROFUNDIDAD_MAX = FILAS * COLUMNAS; // Indefinido
     static final boolean MOSTRAR = false;
 
     @Override
@@ -43,9 +45,9 @@ public class MiniMaxPlayer extends Player {
                 if (!tablero.fullColumn(col)) {
                     Grid casilla = new Grid(tablero);
                     casilla.set(col, 2);
-                    int score = minimax(casilla, conecta, false, profundidad + 1);
-                    printTreeState(col, profundidad, score);
-                    puntMax = Math.max(puntMax, score);
+                    int punt = minimax(casilla, conecta, false, profundidad + 1);
+                    printTreeState(col, profundidad, punt);
+                    puntMax = Math.max(puntMax, punt);
                 }
             }
 
@@ -57,9 +59,9 @@ public class MiniMaxPlayer extends Player {
                 if (!tablero.fullColumn(col)) {
                     Grid newGrid = new Grid(tablero);
                     newGrid.set(col, 1);
-                    int score = minimax(newGrid, conecta, true, profundidad + 1);
-                    printTreeState(col, profundidad, score);
-                    puntMin = Math.min(puntMin, score);
+                    int punt = minimax(newGrid, conecta, true, profundidad + 1);
+                    printTreeState(col, profundidad, punt);
+                    puntMin = Math.min(puntMin, punt);
                 }
             }
 
@@ -67,20 +69,20 @@ public class MiniMaxPlayer extends Player {
         }
     }
 
-    private void printTreeState(int col, int profundidad, int score) {
+    private void printTreeState(int col, int profundidad, int punt) {
         if (MOSTRAR) {
             String tabulacion = "    ".repeat(profundidad + 1);
-            System.err.printf("%sNivel %d | Col: %d | Puntaje: %s%n", tabulacion, profundidad + 1, col, formateo(score));
+            System.err.printf("%sNivel %d | Col: %d | Puntaje: %s%n", tabulacion, profundidad + 1, col, formateo(punt));
         }
     }
 
-    private String formateo(int score) {
-        if (score == Integer.MIN_VALUE) {
+    private String formateo(int punt) {
+        if (punt == Integer.MIN_VALUE) {
             return "-∞";
-        } else if (score == Integer.MAX_VALUE) {
+        } else if (punt == Integer.MAX_VALUE) {
             return "∞";
         } else {
-            return String.valueOf(score);
+            return String.valueOf(punt);
         }
     }
 }

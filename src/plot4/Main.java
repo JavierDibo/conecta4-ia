@@ -20,8 +20,8 @@ public class Main extends JFrame implements ActionListener {
     public static final int MINIMAXRES = 2;
     public static final int ALFABETA = 3;
 
-    private static final int FILAS = 4; // 6
-    private static final int COLUMNAS = 5; // 7
+    private static final int FILAS = 6;
+    private static final int COLUMNAS = 7;
     private static final int CONECTA = 4;
 
     private JButton[][] tableroGUI;
