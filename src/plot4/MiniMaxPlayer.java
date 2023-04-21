@@ -1,11 +1,35 @@
 package plot4;
 
 public class MiniMaxPlayer extends Player {
+    /**
+     * Numero de filas del tablero (definidas en Main).
+     */
     static final int FILAS = 6;
+
+    /**
+     * Numero de columnas del tablero (definidas en Main).
+     */
     static final int COLUMNAS = 7;
-    static final int PROFUNDIDAD_MAX = FILAS * COLUMNAS; // Infinito
+
+    /**
+     * Profundidad maxima de busqueda del algoritmo MiniMax.
+     * El valor se calcula como FILAS * COLUMNAS, lo que representa una profundidad infinita.
+     */
+    static final int PROFUNDIDAD_MAX = FILAS * COLUMNAS;
+
+    /**
+     * Indica si se mostrara o no la informacion del arbol de busqueda en la salida estandar.
+     */
     static final boolean MOSTRAR = false;
 
+    /**
+     * Metodo que se encarga de decidir el movimiento que realizara el jugador en el tablero.
+     * Implementa el algoritmo MiniMax.
+     *
+     * @param tablero El tablero actual del juego.
+     * @param conecta El numero de fichas consecutivas que se necesitan para ganar.
+     * @return El numero de columna donde se realizara el movimiento.
+     */
     @Override
     public int turno(Grid tablero, int conecta) {
         int mejorMov = -1;
@@ -26,8 +50,16 @@ public class MiniMaxPlayer extends Player {
         return mejorMov;
     }
 
+    /**
+     * Metodo privado que implementa el algoritmo MiniMax.
+     *
+     * @param tablero     El tablero actual del juego.
+     * @param conecta     El numero de fichas consecutivas que se necesitan para ganar (no utilizado directamente).
+     * @param esMax       Indica si el jugador actual es el jugador MAX.
+     * @param profundidad La profundidad actual en el arbol de busqueda.
+     * @return El valor de la posicion evaluada.
+     */
     private int minimax(Grid tablero, int conecta, boolean esMax, int profundidad) {
-
         int ganador = tablero.checkWin();
 
         if (ganador == 1) {
@@ -51,6 +83,7 @@ public class MiniMaxPlayer extends Player {
                 }
             }
 
+
             return puntMax;
         } else {
             int puntMin = Integer.MAX_VALUE;
@@ -69,6 +102,13 @@ public class MiniMaxPlayer extends Player {
         }
     }
 
+    /**
+     * Metodo privado que imprime el estado actual del arbol de busqueda en la consola.
+     *
+     * @param col         El numero de columna que se esta evaluando.
+     * @param profundidad La profundidad actual en el arbol de busqueda.
+     * @param punt        El valor de la posicion evaluada.
+     */
     private void printTreeState(int col, int profundidad, int punt) {
         if (MOSTRAR) {
             String tabulacion = "    ".repeat(profundidad + 1);
@@ -76,6 +116,12 @@ public class MiniMaxPlayer extends Player {
         }
     }
 
+    /**
+     * Metodo privado que formatea el valor del puntaje para su impresion en la consola.
+     *
+     * @param punt El valor del puntaje.
+     * @return El valor del puntaje formateado.
+     */
     private String formateo(int punt) {
         if (punt == Integer.MIN_VALUE) {
             return "-∞";
