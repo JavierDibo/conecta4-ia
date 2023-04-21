@@ -2,11 +2,8 @@ package plot4;
 
 public class Grid {
     protected final int[][] tablero;
-
     protected final int filas;
-
     protected final int columnas;
-
     protected final int conecta;
 
     public Grid(int f, int c, int s) {
@@ -20,7 +17,6 @@ public class Grid {
             }
         }
     }
-
 
     public Grid(Grid original) {
         filas = original.filas;
@@ -51,7 +47,6 @@ public class Grid {
         for (int i = 0; i < filas; i++) {
             System.arraycopy(tablero[i], 0, copia[i], 0, columnas);
         }
-
         return copia;
     }
 
@@ -106,7 +101,8 @@ public class Grid {
                         salir = true;
                     }
                     if (!salir) {
-                        if (tablero[j][i] == Main.PLAYER2) {
+                        if (tablero
+                                [j][i] == Main.PLAYER2) {
                             ganar2++;
                         } else {
                             ganar2 = 0;
@@ -196,51 +192,39 @@ public class Grid {
                 }
             }
         }
-
         return ganador;
     }
-
 
     public boolean fullColumn(int col) {
         int x = filas - 1;
         while ((x >= 0) && (tablero[x][col] != Main.VACIO)) {
             x--;
         }
-
         return (x < 0);
     }
-
 
     public int topColumn(int col) {
         int x = filas - 1;
         while ((x >= 0) && (tablero[x][col] != Main.VACIO)) {
             x--;
         }
-
         if (x < 0) {
             return -2;
         } else {
             return tablero[x][col];
         }
-
     }
 
-
     public int set(int col, int jugador) {
-
         int x = filas - 1;
         while ((x >= 0) && (tablero[x][col] != 0)) {
             x--;
         }
-
         if (x >= 0) {
             tablero[x][col] = jugador;
         }
-
         return x;
-
     }
-
 
     public int get(int x, int y) {
         if (x >= 0 && x < filas && y >= 0 && y < columnas) {
@@ -249,7 +233,6 @@ public class Grid {
             return -2;
         }
     }
-
 
     public void print() {
         for (int i = 0; i < filas; i++) {
@@ -260,7 +243,6 @@ public class Grid {
         }
         System.out.println();
     }
-
 
     public int getCount(int player) {
         int count = 0;

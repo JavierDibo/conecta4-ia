@@ -1,4 +1,4 @@
-# Actividad 1. Implementación del algoritmo
+# Actividad 1. Implementación del algoritmo MiniMax
 
 ## MINIMAX
 
@@ -47,7 +47,7 @@ Los campos incluyen:
 - `juego`: una instancia de la clase `Grid` que representa el tablero del juego.
 - `player2`: una instancia de la clase `Player` que representa al jugador 2 (si `jugadorcpu` es verdadero).
 - `ficha1` y `ficha2`: instancias de `ImageIcon` que representan las imágenes de las fichas del jugador 1 y del jugador
-    2.
+  2.
 - `barra`, `archivo`, `opciones`, `salir`, `p1h`, `p2h`, `p2c`, `p2c2`, `p2c3`, `p2c4`, `nombre` y `title`: componentes
   de la interfaz gráfica utilizados para mostrar el menú y la información del juego.
 
@@ -98,17 +98,34 @@ La clase también tiene los siguientes métodos públicos:
 * `print()`: imprime el contenido del tablero en la consola.
 * `getCount(int player)`: devuelve la cantidad de fichas del jugador especificado en el tablero.
 
-Por ejemplo, para crear un objeto `Grid` con 6 filas, 7 columnas y conecta 4, se puede usar el siguiente código:
+# PLAYER
 
-`Grid tablero = new Grid(6, 7, 4);`
+Esta clase de Java define una clase abstracta llamada `Player` que representa un jugador en un juego de tablero. La
+clase contiene dos métodos: `getRandomColumn()` y `turno()`.
 
-Luego, se pueden llamar a los métodos públicos de la clase para interactuar con el tablero. Por ejemplo, para obtener la
-cantidad de filas del tablero, se puede llamar al método `getFilas()`:
+1.
+    - `getRandomColumn(Grid tablero)` es un método protegido y final que devuelve un número entero, que representa una
+      columna al azar en el tablero que no esté completa. Este método toma un parámetro:
 
-`int filas = tablero.getFilas();`
+    - `tablero`: Representa el tablero de juego, que es una instancia de la clase `Grid`.
 
-Para colocar una ficha del jugador 1 en la columna 3, se puede llamar al método `set()`:
+    - Dentro del método, hay un bucle `do-while` que genera un número aleatorio en el rango de 0
+      a `tablero.getColumnas() - 1`, utilizando la función `Math.random()`. Este número aleatorio representa una columna
+      en el tablero. El bucle continúa hasta que se encuentra una columna que no esté llena, lo que se verifica mediante
+      el método `tablero.fullColumn(posicion)`. Al final, el método devuelve la columna aleatoria seleccionada que no
+      está completa.
 
-`int fila = tablero.set(3, 1);`
+2.
+    - `public abstract int turno(Grid tablero, int conecta);` es un método abstracto, lo que significa que no tiene una
+      implementación en esta clase y debe ser implementado por cualquier subclase de `Player`. Este método toma dos
+      parámetros:
 
-Si la columna está llena, el método `set()` devolverá -1 y no colocará la ficha.
+    - `tablero`: Representa el tablero de juego, que es una instancia de la clase `Grid`.
+    - `conecta`: Es un número entero que indica la cantidad de fichas consecutivas necesarias para ganar el juego.
+
+    - El método `turno` debe devolver un entero que represente la columna donde el jugador quiere dejar caer su ficha en
+      el tablero.
+
+La clase `Player` en sí misma no se puede instanciar debido a su naturaleza abstracta. En cambio, se utilizará como una
+clase base para crear subclases que representen diferentes tipos de jugadores con diferentes estrategias de juego. Estas
+subclases deben proporcionar una implementación concreta del método `turno`.

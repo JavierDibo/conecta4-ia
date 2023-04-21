@@ -171,9 +171,14 @@ public class Main extends JFrame implements ActionListener {
         if (jugadorcpu) {
             switch (iaplayer) {
                 case MINIMAX:
+                    /*
                     player2 = new MiniMaxPlayer();
                     System.out.println("CPU (MiniMax)");
                     cabecera = "Juego: Humano vs CPU MiniMax - ";
+                    */
+                    player2 = new GreedyPlayer();
+                    System.out.println("CPU (Greedy)");
+                    cabecera = "Juego: Humano vs CPU Greedy - ";
                     break;
                 case MINIMAXRES:
                     player2 = new MiniMaxRestrainedPlayer();
@@ -186,9 +191,14 @@ public class Main extends JFrame implements ActionListener {
                     cabecera = "Juego: Humano vs CPU MiniMax AlfaBeta - ";
                     break;
                 default:
+                    player2 = new MiniMaxPlayer();
+                    System.out.println("CPU (MiniMax)");
+                    cabecera = "Juego: Humano vs CPU MiniMax - ";
+                    /*
                     player2 = new GreedyPlayer();
                     System.out.println("CPU (Greedy)");
                     cabecera = "Juego: Humano vs CPU Greedy - ";
+                    */
             }
         } else {
             player2 = null;

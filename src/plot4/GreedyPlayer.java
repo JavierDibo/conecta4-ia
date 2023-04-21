@@ -1,22 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package plot4;
 
-/**
- *
- * @author José María Serrano
- * @version 1.7 Departamento de Informática. Universidad de Jáen
- * Última revisión: 2023-03-30
- *
- * Inteligencia Artificial. 2º Curso. Grado en Ingeniería Informática
- *
- * Clase GreedyPlayer para representar al jugador CPU que juega sobre la marcha
- *
- *
- */
 public class GreedyPlayer extends Player {
 
     /**
