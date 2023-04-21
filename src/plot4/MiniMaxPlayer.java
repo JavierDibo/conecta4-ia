@@ -1,7 +1,8 @@
 package plot4;
 
 public class MiniMaxPlayer extends Player {
-    static final int PROFUNDIDAD_MAX = 5;
+    static final int PROFUNDIDAD_MAX = 40;
+    static final boolean MOSTRAR = false;
 
     @Override
     public int turno(Grid tablero, int conecta) {
@@ -26,7 +27,6 @@ public class MiniMaxPlayer extends Player {
     private int minimax(Grid tablero, int conecta, boolean esMax, int profundidad) {
 
         int ganador = tablero.checkWin();
-        boolean mostrar = true;
 
         if (ganador == 1) {
             return -1000 + profundidad;
@@ -44,7 +44,7 @@ public class MiniMaxPlayer extends Player {
                     Grid casilla = new Grid(tablero);
                     casilla.set(col, 2);
                     int score = minimax(casilla, conecta, false, profundidad + 1);
-                    printTreeState(col, profundidad, score, mostrar);
+                    printTreeState(col, profundidad, score);
                     puntMax = Math.max(puntMax, score);
                 }
             }
@@ -58,7 +58,7 @@ public class MiniMaxPlayer extends Player {
                     Grid newGrid = new Grid(tablero);
                     newGrid.set(col, 1);
                     int score = minimax(newGrid, conecta, true, profundidad + 1);
-                    printTreeState(col, profundidad, score, mostrar);
+                    printTreeState(col, profundidad, score);
                     puntMin = Math.min(puntMin, score);
                 }
             }
@@ -67,8 +67,8 @@ public class MiniMaxPlayer extends Player {
         }
     }
 
-    private void printTreeState(int col, int profundidad, int score, boolean mostrar) {
-        if (mostrar) {
+    private void printTreeState(int col, int profundidad, int score) {
+        if (MOSTRAR) {
             String tabulacion = "    ".repeat(profundidad + 1);
             System.err.printf("%sNivel %d | Col: %d | Puntaje: %s%n", tabulacion, profundidad + 1, col, formateo(score));
         }
