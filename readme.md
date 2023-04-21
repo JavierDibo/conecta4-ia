@@ -2,34 +2,17 @@
 
 ## MINIMAX
 
-La implementación de un algoritmo MINIMAX puede llevarse a cabo de formas
-diferentes, pero lo importante es tener clara la idea de su funcionamiento.
+La implementación de un algoritmo MINIMAX puede llevarse a cabo de formas diferentes, pero lo importante es tener clara la idea de su funcionamiento.
 
-El algoritmo debe generar un árbol de soluciones completo a partir de un nodo
-dado, y este árbol se debería desplegar hasta los nodos finales con todas las
-posibles combinaciones a lo largo de su desarrollo. Como se puede imaginar, el
-coste es muy alto y necesitamos mecanismos que optimicen esta técnica.
+El algoritmo debe generar un árbol de soluciones completo a partir de un nodo dado, y este árbol se debería desplegar hasta los nodos finales con todas las posibles combinaciones a lo largo de su desarrollo. Como se puede imaginar, el coste es muy alto y necesitamos mecanismos que optimicen esta técnica. 
 
-* NOTA: Para implementar el algoritmo MINIMAX completo será conveniente
-  reducir el tamaño del tablero (`filas`, `columnas`) o el número de fichas a
-  conectar (`conecta`), dentro de la clase `Main`. Indicar qué valores se han
-  usado.
+* NOTA: Para implementar el algoritmo MINIMAX completo será conveniente reducir el tamaño del tablero (`filas`, `columnas`) o el número de fichas a conectar (`conecta`), dentro de la clase `Main`. Indicar qué valores se han usado.
 
-El objetivo a evaluar será la construcción del árbol MINIMAX sobre cada una de
-las jugadas que se vayan realizando por parte del jugador, es decir, cuando el
-Jugador 1 (siempre humano) pone una ficha se debe generar un árbol MINIMAX con todas las
-posibles jugadas hasta los nodos terminales. El algoritmo debe elegir el
-movimiento que, tras propagar la función de utilidad por el árbol, la
-maximice. Para facilitar la corrección, se puede desarrollar un método de
-visualización, por ejemplo, mediante consola/fichero que presente de una
-forma intuitiva la estructura del árbol MINIMAX con las posibles jugadas de la
-máquina.
+El objetivo a evaluar será la construcción del árbol MINIMAX sobre cada una de las jugadas que se vayan realizando por parte del jugador, es decir, cuando el Jugador 1 (siempre humano) pone una ficha se debe generar un árbol MINIMAX con todas las posibles jugadas hasta los nodos terminales. El algoritmo debe elegir el movimiento que, tras propagar la función de utilidad por el árbol, lamaximice. Para facilitar la corrección, se puede desarrollar un método de visualización, por ejemplo, mediante consola/fichero que presente de una forma intuitiva la estructura del árbol MINIMAX con las posibles jugadas de la máquina.
 
 # MAIN
 
-Este código define una clase llamada `Main` que extiende de la clase `JFrame` y también implementa la
-interfaz `ActionListener`. La clase contiene varios campos y métodos que se utilizan para crear un juego de Connect 4 (
-Conecta-4).
+Este código define una clase llamada `Main` que extiende de la clase `JFrame` y también implementa la interfaz `ActionListener`. La clase contiene varios campos y métodos que se utilizan para crear un juego de Connect 4 (Conecta-4).
 
 Los campos incluyen:
 
@@ -39,24 +22,19 @@ Los campos incluyen:
 - `iaplayer`: un entero que indica qué tipo de CPU se está utilizando para el jugador 2 (si `jugadorcpu` es verdadero).
 - `pulsado`: un booleano que indica si el botón del tablero se ha presionado o no.
 - `PLAYER1`, `PLAYER2` y `VACIO`: constantes enteras que representan los diferentes estados de las celdas del tablero.
-- `MINIMAX`, `MINIMAXRES` y `ALFABETA`: constantes enteras que representan los diferentes algoritmos de la CPU
-  utilizados.
-- `FILAS`, `COLUMNAS` y `CONECTA`: constantes enteras que representan las dimensiones del tablero y el número de
-  conexiones necesarias para ganar el juego.
+- `MINIMAX`, `MINIMAXRES` y `ALFABETA`: constantes enteras que representan los diferentes algoritmos de la CPU utilizados.
+- `FILAS`, `COLUMNAS` y `CONECTA`: constantes enteras que representan las dimensiones del tablero y el número de conexiones necesarias para ganar el juego.
 - `tableroGUI`: una matriz de botones que representa la interfaz gráfica del tablero del juego.
 - `juego`: una instancia de la clase `Grid` que representa el tablero del juego.
 - `player2`: una instancia de la clase `Player` que representa al jugador 2 (si `jugadorcpu` es verdadero).
 - `ficha1` y `ficha2`: instancias de `ImageIcon` que representan las imágenes de las fichas del jugador 1 y del jugador 2.
-- `barra`, `archivo`, `opciones`, `salir`, `p1h`, `p2h`, `p2c`, `p2c2`, `p2c3`, `p2c4`, `nombre` y `title`: componentes
-  de la interfaz gráfica utilizados para mostrar el menú y la información del juego.
+- `barra`, `archivo`, `opciones`, `salir`, `p1h`, `p2h`, `p2c`, `p2c2`, `p2c3`, `p2c4`, `nombre` y `title`: componentes de la interfaz gráfica utilizados para mostrar el menú y la información del juego.
 
 Los métodos incluyen:
 
-- `actionPerformed`: un método que se llama cuando se hace clic en uno de los botones de la interfaz gráfica. Este
-  método realiza diferentes acciones en función del botón que se haya presionado.
+- `actionPerformed`: un método que se llama cuando se hace clic en uno de los botones de la interfaz gráfica. Este método realiza diferentes acciones en función del botón que se haya presionado.
 - `updateGrid`: un método que actualiza la interfaz gráfica del tablero en función del estado actual del juego.
-- `finJuego`: un método que se llama cuando el juego ha terminado. Este método muestra un mensaje de felicitación o
-  empate en función del resultado del juego y reinicia el juego.
+- `finJuego`: un método que se llama cuando el juego ha terminado. Este método muestra un mensaje de felicitación o empate en función del resultado del juego y reinicia el juego.
 - `reset`: un método que reinicia el juego.
 - `initialize`: un método auxiliar que inicializa los botones del tablero.
 - `run`: un método que se utiliza para crear la interfaz gráfica del juego y ejecutar el juego.
@@ -75,8 +53,7 @@ Este código define una clase llamada `Grid` que representa un tablero de juego.
 
 La clase tiene dos constructores:
 
-* `Grid(int f, int c, int s)`: un constructor que inicializa un tablero vacío con la cantidad de filas, columnas y
-  conecta especificados.
+* `Grid(int f, int c, int s)`: un constructor que inicializa un tablero vacío con la cantidad de filas, columnas y conecta especificados.
 * `Grid(Grid original)`: un constructor que crea una copia de otro objeto `Grid`.
 
 La clase también tiene los siguientes métodos públicos:
@@ -85,46 +62,27 @@ La clase también tiene los siguientes métodos públicos:
 * `getColumnas()`: devuelve la cantidad de columnas del tablero.
 * `getGrid()`: devuelve una referencia a la matriz `tablero`.
 * `copyGrid()`: devuelve una copia de la matriz `tablero`.
-* `checkWin()`: comprueba si hay un ganador en el tablero y devuelve el número del jugador ganador (1 o 2), o 0 si no
-  hay ganador.
+* `checkWin()`: comprueba si hay un ganador en el tablero y devuelve el número del jugador ganador (1 o 2), o 0 si no hay ganador.
 * `fullColumn(int col)`: comprueba si la columna especificada está llena.
-* `topColumn(int col)`: devuelve el número de jugador que tiene la ficha en la parte superior de la columna
-  especificada, o -2 si la columna está vacía.
-* `set(int col, int jugador)`: coloca una ficha del jugador especificado en la columna especificada y devuelve el índice
-  de fila donde se colocó la ficha, o -1 si la columna está llena.
-* `get(int x, int y)`: devuelve el número de jugador que tiene la ficha en la posición especificada, o -2 si la posición
-  está fuera de los límites del tablero.
+* `topColumn(int col)`: devuelve el número de jugador que tiene la ficha en la parte superior de la columna especificada, o -2 si la columna está vacía.
+* `set(int col, int jugador)`: coloca una ficha del jugador especificado en la columna especificada y devuelve el índice de fila donde se colocó la ficha, o -1 si la columna está llena.
+* `get(int x, int y)`: devuelve el número de jugador que tiene la ficha en la posición especificada, o -2 si la posición está fuera de los límites del tablero.
 * `print()`: imprime el contenido del tablero en la consola.
 * `getCount(int player)`: devuelve la cantidad de fichas del jugador especificado en el tablero.
 
 # PLAYER
 
-Esta clase de Java define una clase abstracta llamada `Player` que representa un jugador en un juego de tablero. La
-clase contiene dos métodos: `getRandomColumn()` y `turno()`.
+Esta clase de Java define una clase abstracta llamada `Player` que representa un jugador en un juego de tablero. La clase contiene dos métodos: `getRandomColumn()` y `turno()`.
 
 1.
-    - `getRandomColumn(Grid tablero)` es un método protegido y final que devuelve un número entero, que representa una
-      columna al azar en el tablero que no esté completa. Este método toma un parámetro:
-
+    - `getRandomColumn(Grid tablero)` es un método protegido y final que devuelve un número entero, que representa una columna al azar en el tablero que no esté completa. Este método toma un parámetro:
     - `tablero`: Representa el tablero de juego, que es una instancia de la clase `Grid`.
-
-    - Dentro del método, hay un bucle `do-while` que genera un número aleatorio en el rango de 0
-      a `tablero.getColumnas() - 1`, utilizando la función `Math.random()`. Este número aleatorio representa una columna
-      en el tablero. El bucle continúa hasta que se encuentra una columna que no esté llena, lo que se verifica mediante
-      el método `tablero.fullColumn(posicion)`. Al final, el método devuelve la columna aleatoria seleccionada que no
-      está completa.
+    - Dentro del método, hay un bucle `do-while` que genera un número aleatorio en el rango de 0 a `tablero.getColumnas() - 1`, utilizando la función `Math.random()`. Este número aleatorio representa una columna en el tablero. El bucle continúa hasta que se encuentra una columna que no esté llena, lo que se verifica mediante el método `tablero.fullColumn(posicion)`. Al final, el método devuelve la columna aleatoria seleccionada que no está completa.
 
 2.
-    - `public abstract int turno(Grid tablero, int conecta);` es un método abstracto, lo que significa que no tiene una
-      implementación en esta clase y debe ser implementado por cualquier subclase de `Player`. Este método toma dos
-      parámetros:
-
+    - `public abstract int turno(Grid tablero, int conecta);` es un método abstracto, lo que significa que no tiene una implementación en esta clase y debe ser implementado por cualquier subclase de `Player`. Este método toma dos parámetros:
     - `tablero`: Representa el tablero de juego, que es una instancia de la clase `Grid`.
     - `conecta`: Es un número entero que indica la cantidad de fichas consecutivas necesarias para ganar el juego.
+    - El método `turno` debe devolver un entero que represente la columna donde el jugador quiere dejar caer su ficha en el tablero.
 
-    - El método `turno` debe devolver un entero que represente la columna donde el jugador quiere dejar caer su ficha en
-      el tablero.
-
-La clase `Player` en sí misma no se puede instanciar debido a su naturaleza abstracta. En cambio, se utilizará como una
-clase base para crear subclases que representen diferentes tipos de jugadores con diferentes estrategias de juego. Estas
-subclases deben proporcionar una implementación concreta del método `turno`.
+La clase `Player` en sí misma no se puede instanciar debido a su naturaleza abstracta. En cambio, se utilizará como una clase base para crear subclases que representen diferentes tipos de jugadores con diferentes estrategias de juego. Estas subclases deben proporcionar una implementación concreta del método `turno`.

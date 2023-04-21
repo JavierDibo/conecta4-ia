@@ -3,7 +3,7 @@ package plot4;
 public class MiniMaxPlayer extends Player {
     static final int FILAS = 6;
     static final int COLUMNAS = 7;
-    static final int PROFUNDIDAD_MAX = FILAS * COLUMNAS; // Indefinido
+    static final int PROFUNDIDAD_MAX = FILAS * COLUMNAS; // Infinito
     static final boolean MOSTRAR = false;
 
     @Override
