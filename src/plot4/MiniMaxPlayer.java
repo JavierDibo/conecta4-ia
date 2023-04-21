@@ -1,7 +1,6 @@
 package plot4;
 
 public class MiniMaxPlayer extends Player {
-
     static final int PROFUNDIDAD_MAX = 5;
 
     @Override
@@ -13,7 +12,7 @@ public class MiniMaxPlayer extends Player {
             if (!tablero.fullColumn(col)) {
                 Grid casilla = new Grid(tablero);
                 casilla.set(col, 2);
-                int punt = minimax(casilla, conecta, false, 0, "");
+                int punt = minimax(casilla, conecta, false, 0);
                 if (punt > puntMax) {
                     puntMax = punt;
                     mejorMov = col;
@@ -24,8 +23,10 @@ public class MiniMaxPlayer extends Player {
         return mejorMov;
     }
 
-    private int minimax(Grid tablero, int conecta, boolean esMax, int profundidad, String prefijo) {
+    private int minimax(Grid tablero, int conecta, boolean esMax, int profundidad) {
+
         int ganador = tablero.checkWin();
+        boolean mostrar = true;
 
         if (ganador == 1) {
             return -1000 + profundidad;
@@ -35,17 +36,15 @@ public class MiniMaxPlayer extends Player {
             return 0;
         }
 
-        String nuevoPrefijo = prefijo + (profundidad == 0 ? "" : "   |-");
-
         if (esMax) {
             int puntMax = Integer.MIN_VALUE;
 
             for (int col = 0; col < tablero.getColumnas(); col++) {
                 if (!tablero.fullColumn(col)) {
-                    Grid newGrid = new Grid(tablero);
-                    newGrid.set(col, 2);
-                    int score = minimax(newGrid, conecta, false, profundidad + 1, prefijo + " ");
-                    // printTreeState(nuevoPrefijo, col, profundidad, score);
+                    Grid casilla = new Grid(tablero);
+                    casilla.set(col, 2);
+                    int score = minimax(casilla, conecta, false, profundidad + 1);
+                    printTreeState(col, profundidad, score, mostrar);
                     puntMax = Math.max(puntMax, score);
                 }
             }
@@ -58,8 +57,8 @@ public class MiniMaxPlayer extends Player {
                 if (!tablero.fullColumn(col)) {
                     Grid newGrid = new Grid(tablero);
                     newGrid.set(col, 1);
-                    int score = minimax(newGrid, conecta, true, profundidad + 1, prefijo + " ");
-                    // printTreeState(nuevoPrefijo, col, profundidad, score);
+                    int score = minimax(newGrid, conecta, true, profundidad + 1);
+                    printTreeState(col, profundidad, score, mostrar);
                     puntMin = Math.min(puntMin, score);
                 }
             }
@@ -68,9 +67,20 @@ public class MiniMaxPlayer extends Player {
         }
     }
 
-    private void printTreeState(String prefijo, int col, int profundidad, int score) {
-        if (score != 0) {
-            System.err.printf("%sColumna: %d, Profundidad: %d, Puntaje: %d%n", prefijo, col, profundidad + 1, score);
+    private void printTreeState(int col, int profundidad, int score, boolean mostrar) {
+        if (mostrar) {
+            String tabulacion = "    ".repeat(profundidad + 1);
+            System.err.printf("%sNivel %d | Col: %d | Puntaje: %s%n", tabulacion, profundidad + 1, col, formateo(score));
+        }
+    }
+
+    private String formateo(int score) {
+        if (score == Integer.MIN_VALUE) {
+            return "-∞";
+        } else if (score == Integer.MAX_VALUE) {
+            return "∞";
+        } else {
+            return String.valueOf(score);
         }
     }
 }
