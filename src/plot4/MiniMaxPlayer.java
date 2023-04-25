@@ -1,5 +1,9 @@
 package plot4;
 
+/**
+ * @author Javier Francisco Dibo Gómez
+ * @author Cristian Ojeda del Moral
+ */
 public class MiniMaxPlayer extends Player {
     /**
      * Numero de filas del tablero (definidas en Main).
@@ -50,6 +54,7 @@ public class MiniMaxPlayer extends Player {
         return mejorMov;
     }
 
+
     /**
      * Metodo privado que implementa el algoritmo MiniMax.
      *
@@ -78,7 +83,7 @@ public class MiniMaxPlayer extends Player {
                     Grid casilla = new Grid(tablero);
                     casilla.set(col, 2);
                     int punt = minimax(casilla, conecta, false, profundidad + 1);
-                    printTreeState(col, profundidad, punt);
+                    mostrar(col, profundidad, punt);
                     puntMax = Math.max(puntMax, punt);
                 }
             }
@@ -93,7 +98,7 @@ public class MiniMaxPlayer extends Player {
                     Grid newGrid = new Grid(tablero);
                     newGrid.set(col, 1);
                     int punt = minimax(newGrid, conecta, true, profundidad + 1);
-                    printTreeState(col, profundidad, punt);
+                    mostrar(col, profundidad, punt);
                     puntMin = Math.min(puntMin, punt);
                 }
             }
@@ -109,7 +114,7 @@ public class MiniMaxPlayer extends Player {
      * @param profundidad La profundidad actual en el arbol de busqueda.
      * @param punt        El valor de la posicion evaluada.
      */
-    private void printTreeState(int col, int profundidad, int punt) {
+    private void mostrar(int col, int profundidad, int punt) {
         if (MOSTRAR) {
             String tabulacion = "    ".repeat(profundidad + 1);
             System.err.printf("%sNivel %d | Col: %d | Puntaje: %s%n", tabulacion, profundidad + 1, col, formateo(punt));
