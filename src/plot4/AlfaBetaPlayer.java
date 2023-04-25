@@ -112,7 +112,7 @@ public class AlfaBetaPlayer extends Player {
      * indica si se está en un nivel "máximo" o "mínimo" del árbol de juego, y el número de fichas consecutivas
      * necesarias para ganar. Devuelve la puntuación para la posición actual.
      *
-     * @param tablero El tablero de  * juego actual.
+     * @param tablero El tablero de juego actual.
      * @param esMax   Indica si se está en un nivel "máximo" o "mínimo" del árbol de juego.
      * @param conecta El número de fichas consecutivas necesarias para ganar.
      * @return La puntuación para la posición actual.

@@ -87,11 +87,9 @@ public class MiniMaxRestrainedPlayer extends Player {
     }
 
     /**
-     * Método que calcula la heurística para una posición en el tablero. Recibe el tablero actual, un booleano que
-     * indica si se está en un nivel "máximo" o "mínimo" del árbol de juego, y el número de fichas consecutivas
-     * necesarias para ganar. Devuelve la puntuación para la posición actual.
+     * Método que calcula la heurística para una posición en el tablero. Devuelve la puntuación para la posición actual.
      *
-     * @param tablero El tablero de  * juego actual.
+     * @param tablero El tablero de juego actual.
      * @param esMax   Indica si se está en un nivel "máximo" o "mínimo" del árbol de juego.
      * @param conecta El número de fichas consecutivas necesarias para ganar.
      * @return La puntuación para la posición actual.
