@@ -1,13 +1,7 @@
 package plot4;
 
 public class AlfaBetaPlayer extends Player {
-    /**
-     * Profundidad máxima de búsqueda en el árbol de juego.
-     */
     static final int PROFUNDIDAD_MAX = 9;
-    /**
-     * Indica si se desea mostrar el árbol de juego en la consola.
-     */
     static final boolean MOSTRAR_ARBOL = false;
 
     /**
@@ -124,28 +118,37 @@ public class AlfaBetaPlayer extends Player {
      * @return La puntuación para la posición actual.
      */
     private int heuristica(Grid tablero, boolean esMax, int conecta) {
+        // Cantidad máxima de piezas consecutivas del jugador.
         int piezasConsecutivasMax = 0;
         int jugador = esMax ? 2 : 1;
 
         for (int fila = 0; fila < tablero.getFilas(); fila++) {
             for (int columna = 0; columna < tablero.getColumnas(); columna++) {
+                // Si la posición actual del tablero pertenece al jugador, se analizan las posibles direcciones de piezas consecutivas.
                 if (tablero.get(fila, columna) == jugador) {
-                    int[] dx = {-1, 0, 1, 1};
-                    int[] dy = {1, 1, 1, 0};
+                    // Arrays con las direcciones posibles a analizar en el tablero (arriba-izquierda, arriba, arriba-derecha, derecha).
+                    int[] dirX = {-1, 0, 1, 1};
+                    int[] dirY = {1, 1, 1, 0};
+                    // Itera a través de las direcciones posibles.
                     for (int direccion = 0; direccion < 4; direccion++) {
-                        int nx = fila + dx[direccion];
-                        int ny = columna + dy[direccion];
+                        // Calcula las nuevas coordenadas en función de la dirección actual.
+                        int nx = fila + dirX[direccion];
+                        int ny = columna + dirY[direccion];
                         int cuenta = 1;
                         boolean espacioLibre = false;
 
+                        // Mientras la posición nx, ny sea igual al jugador o haya un espacio libre, sigue analizando en la dirección actual.
                         while (tablero.get(nx, ny) == jugador || (tablero.get(nx, ny) == 0 && !espacioLibre)) {
+                            // Si la posición nx, ny está vacía, marca espacioLibre como verdadero.
                             if (tablero.get(nx, ny) == 0) {
                                 espacioLibre = true;
                             } else {
+                                // Si no está vacía, incrementa la cuenta de piezas consecutivas.
                                 cuenta++;
                             }
-                            nx += dx[direccion];
-                            ny += dy[direccion];
+                            // Avanza a la siguiente posición en la dirección actual.
+                            nx += dirX[direccion];
+                            ny += dirY[direccion];
                         }
 
                         if (espacioLibre) {
@@ -162,6 +165,7 @@ public class AlfaBetaPlayer extends Player {
             return -piezasConsecutivasMax;
         }
     }
+
 
     /**
      * Método que muestra información sobre el árbol de juego en la consola. Recibe el número de columna, la

@@ -87,38 +87,47 @@ public class MiniMaxRestrainedPlayer extends Player {
     }
 
     /**
-     * Metodo que calcula una heuristica para el tablero dado. Se basa en contar cuantas piezas consecutivas tiene el
-     * jugador en cada una de las posibles direcciones (horizontal, vertical y diagonales), ademas le da mas valor a las
-     * posiciones vacias adyacentes.
+     * Método que calcula la heurística para una posición en el tablero. Recibe el tablero actual, un booleano que
+     * indica si se está en un nivel "máximo" o "mínimo" del árbol de juego, y el número de fichas consecutivas
+     * necesarias para ganar. Devuelve la puntuación para la posición actual.
      *
-     * @param tablero El tablero actual del juego.
-     * @param esMax   Indica si el jugador actual es el jugador maximizante o no.
-     * @param conecta El numero de fichas que deben conectarse para ganar.
-     * @return El valor heuristico del tablero.
+     * @param tablero El tablero de  * juego actual.
+     * @param esMax   Indica si se está en un nivel "máximo" o "mínimo" del árbol de juego.
+     * @param conecta El número de fichas consecutivas necesarias para ganar.
+     * @return La puntuación para la posición actual.
      */
     private int heuristica(Grid tablero, boolean esMax, int conecta) {
+        // Cantidad máxima de piezas consecutivas del jugador.
         int piezasConsecutivasMax = 0;
         int jugador = esMax ? 2 : 1;
 
         for (int fila = 0; fila < tablero.getFilas(); fila++) {
             for (int columna = 0; columna < tablero.getColumnas(); columna++) {
+                // Si la posición actual del tablero pertenece al jugador, se analizan las posibles direcciones de piezas consecutivas.
                 if (tablero.get(fila, columna) == jugador) {
-                    int[] dx = {-1, 0, 1, 1};
-                    int[] dy = {1, 1, 1, 0};
+                    // Arrays con las direcciones posibles a analizar en el tablero (arriba-izquierda, arriba, arriba-derecha, derecha).
+                    int[] dirX = {-1, 0, 1, 1};
+                    int[] dirY = {1, 1, 1, 0};
+                    // Itera a través de las direcciones posibles.
                     for (int direccion = 0; direccion < 4; direccion++) {
-                        int nx = fila + dx[direccion];
-                        int ny = columna + dy[direccion];
+                        // Calcula las nuevas coordenadas en función de la dirección actual.
+                        int nx = fila + dirX[direccion];
+                        int ny = columna + dirY[direccion];
                         int cuenta = 1;
                         boolean espacioLibre = false;
 
+                        // Mientras la posición nx, ny sea igual al jugador o haya un espacio libre, sigue analizando en la dirección actual.
                         while (tablero.get(nx, ny) == jugador || (tablero.get(nx, ny) == 0 && !espacioLibre)) {
+                            // Si la posición nx, ny está vacía, marca espacioLibre como verdadero.
                             if (tablero.get(nx, ny) == 0) {
                                 espacioLibre = true;
                             } else {
+                                // Si no está vacía, incrementa la cuenta de piezas consecutivas.
                                 cuenta++;
                             }
-                            nx += dx[direccion];
-                            ny += dy[direccion];
+                            // Avanza a la siguiente posición en la dirección actual.
+                            nx += dirX[direccion];
+                            ny += dirY[direccion];
                         }
 
                         if (espacioLibre) {
