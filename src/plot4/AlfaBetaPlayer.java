@@ -1,15 +1,23 @@
 package plot4;
 
 public class AlfaBetaPlayer extends Player {
+    /**
+     * Profundidad máxima de búsqueda en el árbol de juego.
+     */
     static final int PROFUNDIDAD_MAX = 9;
+    /**
+     * Indica si se desea mostrar el árbol de juego en la consola.
+     */
     static final boolean MOSTRAR_ARBOL = false;
 
     /**
-     * Metodo que determina el siguiente movimiento a realizar por el jugador.
+     * Método que implementa el algoritmo Minimax con poda Alfa-Beta para tomar la decisión de juego. Recibe el tablero
+     * actual y el valor de la ficha del jugador que está usand esta estrategia de juego, y devuelve el número de
+     * columna donde el jugador deberíaponer su ficha.
      *
-     * @param tablero El tablero actual del juego.
-     * @param conecta El numero de fichas que deben conectarse para ganar.
-     * @return La columna donde se debe colocar la ficha.
+     * @param tablero El tablero de juego actual.
+     * @param conecta El número de fichas consecutivas necesarias para ganar.
+     * @return El número de columna donde el jugador debe poner su ficha.
      */
     @Override
     public int turno(Grid tablero, int conecta) {
@@ -33,15 +41,19 @@ public class AlfaBetaPlayer extends Player {
         return mejorMovimiento;
     }
 
-
     /**
-     * Metodo que implementa el algoritmo MiniMax con poda alfa-beta para realizar la mejor jugada a realizar.
+     * Método recursivo que implementa el algoritmo Minimax con poda Alfa-Beta. Recibe el tablero actual, el valor de
+     * la ficha del jugador que está usando esta estrategia de juego, un booleano que indica si se está en un nivel
+     * "máximo" o "mínimo" del árbol de juego, la profundidad actual en el árbol, y los valores alfa y beta para la
+     * poda. Devuelve la puntuación para la jugada actual.
      *
-     * @param tablero     El tablero actual del juego.
-     * @param conecta     El numero de fichas que deben conectarse para ganar.
-     * @param esMax       Indica si el jugador actual es el jugador maximizante o no.
-     * @param profundidad La profundidad actual del arbol de busqueda.
-     * @return El valor de la mejor jugada encontrada.
+     * @param tablero     El tablero de juego actual.
+     * @param conecta     El número de fichas consecutivas necesarias para ganar.
+     * @param esMax       Indica si se está en un nivel "máximo" o "mínimo" del árbol de juego.
+     * @param profundidad La profundidad actual en el árbol de juego.
+     * @param alfa        Valor para la poda Alfa-Beta.
+     * @param beta        Valor para la poda Alfa-Beta.
+     * @return La puntuación para la jugada actual.
      */
     private int minimax(Grid tablero, int conecta, boolean esMax, int profundidad, int alfa, int beta) {
         int ganador = tablero.checkWin();
@@ -101,16 +113,15 @@ public class AlfaBetaPlayer extends Player {
         }
     }
 
-
     /**
-     * Metodo que calcula una heuristica para el tablero dado. Se basa en contar cuantas piezas consecutivas tiene el
-     * jugador en cada una de las posibles direcciones (horizontal, vertical y diagonales), ademas le da mas valor a las
-     * posiciones vacias adyacentes.
+     * Método que calcula la heurística para una posición en el tablero. Recibe el tablero actual, un booleano que
+     * indica si se está en un nivel "máximo" o "mínimo" del árbol de juego, y el número de fichas consecutivas
+     * necesarias para ganar. Devuelve la puntuación para la posición actual.
      *
-     * @param tablero El tablero actual del juego.
-     * @param esMax   Indica si el jugador actual es el jugador maximizante o no.
-     * @param conecta El numero de fichas que deben conectarse para ganar.
-     * @return El valor heuristico del tablero.
+     * @param tablero El tablero de  * juego actual.
+     * @param esMax   Indica si se está en un nivel "máximo" o "mínimo" del árbol de juego.
+     * @param conecta El número de fichas consecutivas necesarias para ganar.
+     * @return La puntuación para la posición actual.
      */
     private int heuristica(Grid tablero, boolean esMax, int conecta) {
         int piezasConsecutivasMax = 0;
@@ -153,11 +164,12 @@ public class AlfaBetaPlayer extends Player {
     }
 
     /**
-     * Metodo que muestra informacion sobre el arbol de busqueda utilizado por el algoritmo MiniMax.
+     * Método que muestra información sobre el árbol de juego en la consola. Recibe el número de columna, la
+     * profundidad actual en el árbol y la puntuación para la jugada actual.
      *
-     * @param columna     La columna que se esta explorando.
-     * @param profundidad La profundidad actual del arbol de busqueda.
-     * @param puntuacion  La puntuacion de la casilla actual.
+     * @param columna     El número de columna de la jugada actual.
+     * @param profundidad La profundidad actual en el árbol de juego.
+     * @param puntuacion  La puntuación para la jugada actual.
      */
     private void mostrar(int columna, int profundidad, int puntuacion) {
         if (MOSTRAR_ARBOL) {
