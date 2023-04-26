@@ -122,39 +122,41 @@ public class AlfaBetaPlayer extends Player {
      * @return La puntuacion para la posicion actual.
      */
     private int heuristica(Grid tablero, boolean esMax, int conecta) {
-        // Cantidad maxima de piezas consecutivas del jugador.
         int piezasConsecutivasMax = 0;
         int jugador = esMax ? JUGADOR_DOS : JUGADOR_UNO;
 
+        // Recorre todas las celdas del tablero
         for (int fila = 0; fila < tablero.getFilas(); fila++) {
             for (int columna = 0; columna < tablero.getColumnas(); columna++) {
-                // Si la posicion actual del tablero pertenece al jugador, se analizan las posibles direcciones de piezas consecutivas.
+                // Si la posición actual del tablero pertenece al jugador, se analizan las posibles direcciones de piezas consecutivas.
                 if (tablero.get(fila, columna) == jugador) {
                     // Arrays con las direcciones posibles a analizar en el tablero (arriba-izquierda, arriba, arriba-derecha, derecha).
                     int[] dirX = {-1, 0, 1, 1};
                     int[] dirY = {1, 1, 1, 0};
-                    // Itera a traves de las direcciones posibles.
+
+                    // Itera a través de las direcciones posibles.
                     for (int direccion = 0; direccion < 4; direccion++) {
-                        // Calcula las nuevas coordenadas en funcion de la direccion actual.
+                        // Calcula las nuevas coordenadas en función de la dirección actual.
                         int nx = fila + dirX[direccion];
                         int ny = columna + dirY[direccion];
                         int cuenta = 1;
                         boolean espacioLibre = false;
 
-                        // Mientras la posicion nx, ny sea igual al jugador o haya un espacio libre, sigue analizando en la direccion actual.
+                        // Mientras la posición nx, ny sea igual al jugador o haya un espacio libre, sigue analizando en la dirección actual.
                         while (tablero.get(nx, ny) == jugador || (tablero.get(nx, ny) == 0 && !espacioLibre)) {
-                            // Si la posicion nx, ny esta vacia, marca espacioLibre como verdadero.
+                            // Si la posición nx, ny está vacía, marca espacioLibre como verdadero.
                             if (tablero.get(nx, ny) == 0) {
                                 espacioLibre = true;
                             } else {
-                                // Si no esta vacia, incrementa la cuenta de piezas consecutivas.
+                                // Si no está vacía, incrementa la cuenta de piezas consecutivas.
                                 cuenta++;
                             }
-                            // Avanza a la siguiente posicion en la direccion actual.
+                            // Avanza a la siguiente posición en la dirección actual.
                             nx += dirX[direccion];
                             ny += dirY[direccion];
                         }
 
+                        // Si hay espacio libre, actualiza el máximo de piezas consecutivas.
                         if (espacioLibre) {
                             piezasConsecutivasMax = Math.max(piezasConsecutivasMax, cuenta);
                         }
@@ -163,13 +165,11 @@ public class AlfaBetaPlayer extends Player {
             }
         }
 
-        if (esMax) {
-            return piezasConsecutivasMax;
-        } else {
-            return -piezasConsecutivasMax;
-        }
+        // Calcula la puntuación heurística multiplicando las piezas consecutivas por sí mismas.
+        // Si es el jugador máximo, devuelve un valor positivo; si es el jugador mínimo, devuelve un valor negativo.
+        int puntuacionHeuristica = esMax ? piezasConsecutivasMax * piezasConsecutivasMax : -(piezasConsecutivasMax * piezasConsecutivasMax);
+        return puntuacionHeuristica;
     }
-
 
     /**
      * Metodo que muestra informacion sobre el arbol de juego en la consola. Recibe el numero de columna, la
