@@ -3,6 +3,10 @@ package plot4;
 public class MiniMaxRestrainedPlayer extends Player {
     static final int PROFUNDIDAD_MAX = 6;
     static final boolean MOSTRAR_ARBOL = false;
+    static final int JUGADOR_NULO = 0;
+    static final int JUGADOR_UNO = 1;
+    static final int JUGADOR_DOS = 2;
+    static final int PROFUNDIDAD_BASE = 0;
 
     /**
      * Metodo que determina el siguiente movimiento a realizar por el jugador.
@@ -19,8 +23,8 @@ public class MiniMaxRestrainedPlayer extends Player {
         for (int columna = 0; columna < tablero.getColumnas(); columna++) {
             if (!tablero.fullColumn(columna)) {
                 Grid casilla = new Grid(tablero);
-                casilla.set(columna, 2);
-                int puntuacion = minimax(casilla, conecta, false, 0);
+                casilla.set(columna, JUGADOR_DOS);
+                int puntuacion = minimax(casilla, conecta, false, PROFUNDIDAD_BASE);
                 if (puntuacion > puntuacionMax) {
                     puntuacionMax = puntuacion;
                     mejorMovimiento = columna;
@@ -43,11 +47,11 @@ public class MiniMaxRestrainedPlayer extends Player {
     private int minimax(Grid tablero, int conecta, boolean esMax, int profundidad) {
         int ganador = tablero.checkWin();
 
-        if (ganador == 1) {
+        if (ganador == JUGADOR_UNO) {
             return -1000 + profundidad;
-        } else if (ganador == 2) {
+        } else if (ganador == JUGADOR_DOS) {
             return 1000 - profundidad;
-        } else if (profundidad >= PROFUNDIDAD_MAX || tablero.getCount(0) == tablero.getFilas() * tablero.getColumnas()) {
+        } else if (profundidad >= PROFUNDIDAD_MAX || tablero.getCount(JUGADOR_NULO) == tablero.getFilas() * tablero.getColumnas()) {
             return heuristica(tablero, esMax, conecta);
         }
 
@@ -57,7 +61,7 @@ public class MiniMaxRestrainedPlayer extends Player {
             for (int columna = 0; columna < tablero.getColumnas(); columna++) {
                 if (!tablero.fullColumn(columna)) {
                     Grid casilla = new Grid(tablero);
-                    casilla.set(columna, 2);
+                    casilla.set(columna, JUGADOR_DOS);
                     int puntuacion = minimax(casilla, conecta, false, profundidad + 1);
                     if (MOSTRAR_ARBOL) {
                         mostrar(columna, profundidad, puntuacion);
@@ -73,7 +77,7 @@ public class MiniMaxRestrainedPlayer extends Player {
             for (int columna = 0; columna < tablero.getColumnas(); columna++) {
                 if (!tablero.fullColumn(columna)) {
                     Grid nuevaCasilla = new Grid(tablero);
-                    nuevaCasilla.set(columna, 1);
+                    nuevaCasilla.set(columna, JUGADOR_UNO);
                     int puntuacion = minimax(nuevaCasilla, conecta, true, profundidad + 1);
                     if (MOSTRAR_ARBOL) {
                         mostrar(columna, profundidad, puntuacion);
@@ -87,43 +91,45 @@ public class MiniMaxRestrainedPlayer extends Player {
     }
 
     /**
-     * Método que calcula la heurística para una posición en el tablero. Devuelve la puntuación para la posición actual.
+     * Metodo que calcula la heuristica para una posicion en el tablero. Asigna un valor mayor a un tablero donde haya
+     * piezas consecutivas, en cualquier direccion, mientras mas haya mas valiosa es. Devuelve la puntuacion para la
+     * posicion actual.
      *
      * @param tablero El tablero de juego actual.
-     * @param esMax   Indica si se está en un nivel "máximo" o "mínimo" del árbol de juego.
-     * @param conecta El número de fichas consecutivas necesarias para ganar.
-     * @return La puntuación para la posición actual.
+     * @param esMax   Indica si se esta en un nivel "maximo" o "minimo" del arbol de juego.
+     * @param conecta El numero de fichas consecutivas necesarias para ganar.
+     * @return La puntuacion para la posicion actual.
      */
     private int heuristica(Grid tablero, boolean esMax, int conecta) {
-        // Cantidad máxima de piezas consecutivas del jugador.
+        // Cantidad maxima de piezas consecutivas del jugador.
         int piezasConsecutivasMax = 0;
-        int jugador = esMax ? 2 : 1;
+        int jugador = esMax ? JUGADOR_DOS : JUGADOR_UNO;
 
         for (int fila = 0; fila < tablero.getFilas(); fila++) {
             for (int columna = 0; columna < tablero.getColumnas(); columna++) {
-                // Si la posición actual del tablero pertenece al jugador, se analizan las posibles direcciones de piezas consecutivas.
+                // Si la posicion actual del tablero pertenece al jugador, se analizan las posibles direcciones de piezas consecutivas.
                 if (tablero.get(fila, columna) == jugador) {
                     // Arrays con las direcciones posibles a analizar en el tablero (arriba-izquierda, arriba, arriba-derecha, derecha).
                     int[] dirX = {-1, 0, 1, 1};
                     int[] dirY = {1, 1, 1, 0};
-                    // Itera a través de las direcciones posibles.
+                    // Itera a traves de las direcciones posibles.
                     for (int direccion = 0; direccion < 4; direccion++) {
-                        // Calcula las nuevas coordenadas en función de la dirección actual.
+                        // Calcula las nuevas coordenadas en funcion de la direccion actual.
                         int nx = fila + dirX[direccion];
                         int ny = columna + dirY[direccion];
                         int cuenta = 1;
                         boolean espacioLibre = false;
 
-                        // Mientras la posición nx, ny sea igual al jugador o haya un espacio libre, sigue analizando en la dirección actual.
+                        // Mientras la posicion nx, ny sea igual al jugador o haya un espacio libre, sigue analizando en la direccion actual.
                         while (tablero.get(nx, ny) == jugador || (tablero.get(nx, ny) == 0 && !espacioLibre)) {
-                            // Si la posición nx, ny está vacía, marca espacioLibre como verdadero.
+                            // Si la posicion nx, ny esta vacia, marca espacioLibre como verdadero.
                             if (tablero.get(nx, ny) == 0) {
                                 espacioLibre = true;
                             } else {
-                                // Si no está vacía, incrementa la cuenta de piezas consecutivas.
+                                // Si no esta vacia, incrementa la cuenta de piezas consecutivas.
                                 cuenta++;
                             }
-                            // Avanza a la siguiente posición en la dirección actual.
+                            // Avanza a la siguiente posicion en la direccion actual.
                             nx += dirX[direccion];
                             ny += dirY[direccion];
                         }
