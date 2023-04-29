@@ -1,11 +1,11 @@
 package plot4;
 
 public class AlfaBetaPlayer extends Player {
-    static final int PROFUNDIDAD_MAX = 9;
+    static final int PROFUNDIDAD_MAX = 8;
     static final boolean MOSTRAR_ARBOL = false;
-    static final int JUGADOR_NULO = 0;
-    static final int JUGADOR_UNO = 1;
-    static final int JUGADOR_DOS = 2;
+    static final int VACIO = Main.VACIO;
+    static final int JUGADOR_UNO = Main.PLAYER1;
+    static final int JUGADOR_DOS = Main.PLAYER2;
     static final int PROFUNDIDAD_BASE = 0;
 
     /**
@@ -57,15 +57,15 @@ public class AlfaBetaPlayer extends Player {
         int ganador = tablero.checkWin();
 
         if (ganador == JUGADOR_UNO) {
-            return -1000 + profundidad;
+            return Integer.MIN_VALUE + profundidad;
         } else if (ganador == JUGADOR_DOS) {
-            return 1000 - profundidad;
-        } else if (profundidad >= PROFUNDIDAD_MAX || tablero.getCount(JUGADOR_NULO) == tablero.getFilas() * tablero.getColumnas()) {
+            return Integer.MAX_VALUE - profundidad;
+        } else if (profundidad >= PROFUNDIDAD_MAX || tablero.getCount(VACIO) == tablero.getFilas() * tablero.getColumnas()) {
             return heuristica(tablero, esMax, conecta);
         }
 
         if (esMax) {
-            int puntuacionMax = Integer.MIN_VALUE;
+            int puntuacionMax = Integer.MIN_VALUE + 1000;
 
             for (int columna = 0; columna < tablero.getColumnas(); columna++) {
                 if (!tablero.fullColumn(columna)) {
@@ -87,7 +87,7 @@ public class AlfaBetaPlayer extends Player {
 
             return puntuacionMax;
         } else {
-            int puntuacionMin = Integer.MAX_VALUE;
+            int puntuacionMin = Integer.MAX_VALUE - 1000;
 
             for (int columna = 0; columna < tablero.getColumnas(); columna++) {
                 if (!tablero.fullColumn(columna)) {

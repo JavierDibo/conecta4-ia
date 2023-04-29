@@ -6,25 +6,15 @@ package plot4;
  */
 public class MiniMaxPlayer extends Player {
     /**
-     * Numero de filas del tablero (definidas en Main).
+     * Jugadores del tablero
      */
-    static final int FILAS = 6;
-
-    /**
-     * Numero de columnas del tablero (definidas en Main).
-     */
-    static final int COLUMNAS = 7;
-
-    /**
-     * Profundidad maxima de busqueda del algoritmo MiniMax.
-     * El valor se calcula como FILAS * COLUMNAS, lo que representa una profundidad infinita.
-     */
-    static final int PROFUNDIDAD_MAX = FILAS * COLUMNAS;
-
+    static final int JUGADOR_UNO = Main.PLAYER1;
+    static final int JUGADOR_DOS = Main.PLAYER2;
+    static final int VACIO = Main.VACIO;
     /**
      * Indica si se mostrara o no la informacion del arbol de busqueda en la salida estandar.
      */
-    static final boolean MOSTRAR = false;
+    static final boolean MOSTRAR = true;
 
     /**
      * Metodo que se encarga de decidir el movimiento que realizara el jugador en el tablero.
@@ -42,7 +32,7 @@ public class MiniMaxPlayer extends Player {
         for (int col = 0; col < tablero.getColumnas(); col++) {
             if (!tablero.fullColumn(col)) {
                 Grid casilla = new Grid(tablero);
-                casilla.set(col, 2);
+                casilla.set(col, JUGADOR_DOS);
                 int punt = minimax(casilla, conecta, false, 0);
                 if (punt > puntMax) {
                     puntMax = punt;
@@ -68,20 +58,20 @@ public class MiniMaxPlayer extends Player {
         int ganador = tablero.checkWin();
 
         if (ganador == 1) {
-            return -1000 + profundidad;
-        } else if (ganador == 2) {
-            return 1000 - profundidad;
-        } else if (profundidad >= PROFUNDIDAD_MAX || tablero.getCount(0) == tablero.getFilas() * tablero.getColumnas()) {
+            return Integer.MIN_VALUE + profundidad;
+        } else if (ganador == -1) {
+            return Integer.MAX_VALUE - profundidad;
+        } else if ( tablero.getCount(VACIO) == tablero.getFilas() * tablero.getColumnas()) {
             return 0;
         }
 
         if (esMax) {
-            int puntMax = Integer.MIN_VALUE;
+            int puntMax = Integer.MIN_VALUE + 1000;
 
             for (int col = 0; col < tablero.getColumnas(); col++) {
                 if (!tablero.fullColumn(col)) {
                     Grid casilla = new Grid(tablero);
-                    casilla.set(col, 2);
+                    casilla.set(col, JUGADOR_DOS);
                     int punt = minimax(casilla, conecta, false, profundidad + 1);
                     mostrar(col, profundidad, punt);
                     puntMax = Math.max(puntMax, punt);
@@ -91,12 +81,12 @@ public class MiniMaxPlayer extends Player {
 
             return puntMax;
         } else {
-            int puntMin = Integer.MAX_VALUE;
+            int puntMin = Integer.MAX_VALUE - 1000;
 
             for (int col = 0; col < tablero.getColumnas(); col++) {
                 if (!tablero.fullColumn(col)) {
                     Grid newGrid = new Grid(tablero);
-                    newGrid.set(col, 1);
+                    newGrid.set(col, JUGADOR_UNO);
                     int punt = minimax(newGrid, conecta, true, profundidad + 1);
                     mostrar(col, profundidad, punt);
                     puntMin = Math.min(puntMin, punt);
@@ -117,23 +107,7 @@ public class MiniMaxPlayer extends Player {
     private void mostrar(int col, int profundidad, int punt) {
         if (MOSTRAR) {
             String tabulacion = "    ".repeat(profundidad + 1);
-            System.err.printf("%sNivel %d | Col: %d | Puntaje: %s%n", tabulacion, profundidad + 1, col, formateo(punt));
-        }
-    }
-
-    /**
-     * Metodo privado que formatea el valor del puntaje para su impresion en la consola.
-     *
-     * @param punt El valor del puntaje.
-     * @return El valor del puntaje formateado.
-     */
-    private String formateo(int punt) {
-        if (punt == Integer.MIN_VALUE) {
-            return "-∞";
-        } else if (punt == Integer.MAX_VALUE) {
-            return "∞";
-        } else {
-            return String.valueOf(punt);
+            System.err.printf("%sNivel %d | Col: %d | Puntaje: %s%n", tabulacion, profundidad + 1, col, punt);
         }
     }
 }
