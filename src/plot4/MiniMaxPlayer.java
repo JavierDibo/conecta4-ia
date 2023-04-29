@@ -5,15 +5,9 @@ package plot4;
  * @author Cristian Ojeda del Moral
  */
 public class MiniMaxPlayer extends Player {
-    /**
-     * Jugadores del tablero
-     */
     static final int JUGADOR_UNO = Main.PLAYER1;
     static final int JUGADOR_DOS = Main.PLAYER2;
     static final int VACIO = Main.VACIO;
-    /**
-     * Indica si se mostrara o no la informacion del arbol de busqueda en la salida estandar.
-     */
     static final boolean MOSTRAR = true;
 
     /**

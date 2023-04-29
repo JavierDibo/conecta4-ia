@@ -1,5 +1,9 @@
 package plot4;
 
+/**
+ * @author Javier Francisco Dibo Gomez
+ * @author Cristian Ojeda del Moral
+ */
 public class MiniMaxRestrainedPlayer extends Player {
     static final int PROFUNDIDAD_MAX = 6;
     static final boolean MOSTRAR_ARBOL = false;
@@ -9,11 +13,12 @@ public class MiniMaxRestrainedPlayer extends Player {
     static final int PROFUNDIDAD_BASE = 0;
 
     /**
-     * Metodo que determina el siguiente movimiento a realizar por el jugador.
+     * Devuelve el numero de columna del mejor movimiento que el jugador puede hacer en el tablero dado, utilizando el
+     * algoritmo de busqueda de minimax con profundidad restringida.
      *
-     * @param tablero El tablero actual del juego.
-     * @param conecta El numero de fichas que deben conectarse para ganar.
-     * @return La columna donde se debe colocar la ficha.
+     * @param tablero el tablero actual del juego
+     * @param conecta la cantidad de fichas consecutivas necesarias para ganar el juego
+     * @return la columna seleccionada como el mejor movimiento
      */
     @Override
     public int turno(Grid tablero, int conecta) {
@@ -91,51 +96,39 @@ public class MiniMaxRestrainedPlayer extends Player {
     }
 
     /**
-     * Metodo que calcula la heuristica para una posicion en el tablero. Asigna un valor mayor a un tablero donde haya
-     * piezas consecutivas, en cualquier direccion, mientras mas haya mas valiosa es. Devuelve la puntuacion para la
-     * posicion actual.
+     * Calcula la puntuacion heuristica para un tablero dado, basado en la cantidad de piezas consecutivas de un jugador.
      *
-     * @param tablero El tablero de juego actual.
-     * @param esMax   Indica si se esta en un nivel "maximo" o "minimo" del arbol de juego.
-     * @param conecta El numero de fichas consecutivas necesarias para ganar.
-     * @return La puntuacion para la posicion actual.
+     * @param tablero      el tablero para el cual se calculara la puntuacion heuristica
+     * @param esJugadorDos un valor booleano que indica si se esta calculando la puntuacion para el jugador dos o no
+     * @param conecta      la cantidad de fichas que deben estar conectadas para ganar el juego
+     * @return la bondad para el tablero dado
      */
-    private int heuristica(Grid tablero, boolean esMax, int conecta) {
+    private int heuristica(Grid tablero, boolean esJugadorDos, int conecta) {
         int piezasConsecutivasMax = 0;
-        int jugador = esMax ? JUGADOR_DOS : JUGADOR_UNO;
+        int jugador = esJugadorDos ? JUGADOR_DOS : JUGADOR_UNO;
 
-        // Recorre todas las celdas del tablero
         for (int fila = 0; fila < tablero.getFilas(); fila++) {
             for (int columna = 0; columna < tablero.getColumnas(); columna++) {
-                // Si la posición actual del tablero pertenece al jugador, se analizan las posibles direcciones de piezas consecutivas.
                 if (tablero.get(fila, columna) == jugador) {
-                    // Arrays con las direcciones posibles a analizar en el tablero (arriba-izquierda, arriba, arriba-derecha, derecha).
                     int[] dirX = {-1, 0, 1, 1};
                     int[] dirY = {1, 1, 1, 0};
 
-                    // Itera a través de las direcciones posibles.
                     for (int direccion = 0; direccion < 4; direccion++) {
-                        // Calcula las nuevas coordenadas en función de la dirección actual.
-                        int nx = fila + dirX[direccion];
-                        int ny = columna + dirY[direccion];
+                        int filaActual = fila + dirX[direccion];
+                        int columnaActual = columna + dirY[direccion];
                         int cuenta = 1;
                         boolean espacioLibre = false;
 
-                        // Mientras la posición nx, ny sea igual al jugador o haya un espacio libre, sigue analizando en la dirección actual.
-                        while (tablero.get(nx, ny) == jugador || (tablero.get(nx, ny) == 0 && !espacioLibre)) {
-                            // Si la posición nx, ny está vacía, marca espacioLibre como verdadero.
-                            if (tablero.get(nx, ny) == 0) {
+                        while (tablero.get(filaActual, columnaActual) == jugador || (tablero.get(filaActual, columnaActual) == VACIO && !espacioLibre)) {
+                            if (tablero.get(filaActual, columnaActual) == 0) {
                                 espacioLibre = true;
                             } else {
-                                // Si no está vacía, incrementa la cuenta de piezas consecutivas.
                                 cuenta++;
                             }
-                            // Avanza a la siguiente posición en la dirección actual.
-                            nx += dirX[direccion];
-                            ny += dirY[direccion];
+                            filaActual += dirX[direccion];
+                            columnaActual += dirY[direccion];
                         }
 
-                        // Si hay espacio libre, actualiza el máximo de piezas consecutivas.
                         if (espacioLibre) {
                             piezasConsecutivasMax = Math.max(piezasConsecutivasMax, cuenta);
                         }
@@ -144,19 +137,17 @@ public class MiniMaxRestrainedPlayer extends Player {
             }
         }
 
-        // Calcula la puntuación heurística multiplicando las piezas consecutivas por sí mismas.
-        // Si es el jugador máximo, devuelve un valor positivo; si es el jugador mínimo, devuelve un valor negativo.
-        int puntuacionHeuristica = esMax ? piezasConsecutivasMax * piezasConsecutivasMax : -(piezasConsecutivasMax * piezasConsecutivasMax);
+        int puntuacionHeuristica = esJugadorDos ? piezasConsecutivasMax * piezasConsecutivasMax : -(piezasConsecutivasMax * piezasConsecutivasMax);
         return puntuacionHeuristica;
     }
 
 
     /**
-     * Metodo que muestra informacion sobre el arbol de busqueda utilizado por el algoritmo MiniMax.
+     * Muestra informacion sobre el nodo actual en el arbol de busqueda, incluyendo la columna, la profundidad y la puntuacion.
      *
-     * @param columna     La columna que se esta explorando.
-     * @param profundidad La profundidad actual del arbol de busqueda.
-     * @param puntuacion  La puntuacion de la casilla actual.
+     * @param columna     la columna actual del nodo
+     * @param profundidad la profundidad actual del nodo en el arbol de busqueda
+     * @param puntuacion  la puntuacion actual del nodo
      */
     private void mostrar(int columna, int profundidad, int puntuacion) {
         if (MOSTRAR_ARBOL) {
